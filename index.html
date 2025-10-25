@@ -1,60 +1,102 @@
+{
+  "name": "khalilhairdesigner",
+  "version": "1.0.0",
+  "description": "Randevu ve admin sistemi",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2",
+    "sqlite3": "^5.1.6"
+  }
+}
+const express = require('express');
+const bodyParser = require('body-parser');
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
+
+const app = express();
+const PORT = 3000;
+
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+// SQLite Database
+const db = new sqlite3.Database('./db/setup.db', (err) => {
+    if (err) console.error(err.message);
+    else console.log('Connected to SQLite database.');
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
+
+-- Kullanıcılar tablosu
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    phone TEXT,
+    isAdmin INTEGER DEFAULT 0,
+    language TEXT DEFAULT 'ar'
+);
+
+-- Randevular tablosu
+CREATE TABLE IF NOT EXISTS appointments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    userId INTEGER,
+    service TEXT,
+    startTime TEXT,
+    duration INTEGER,
+    status TEXT DEFAULT 'pending',
+    FOREIGN KEY(userId) REFERENCES users(id)
+);
 <!DOCTYPE html>
-<html>
+<html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>Kahalil Hair Designer Randevu Sistemi</title>
+    <meta charset="UTF-8">
+    <title>Khalil Hair Designer</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<h1>Hoşgeldin, Kahalil Hair Designer Randevu Sistemi</h1>
-
-<label for="kullanici-isim">İsim:</label>
-<input type="text" id="kullanici-isim" name="kullanici-isim" placeholder="İsminizi girin">
-<br><br>
-
-<label for="kullanici-telefon">Telefon:</label>
-<input type="tel" id="kullanici-telefon" name="kullanici-telefon" placeholder="Telefon numaranızı girin">
-<br><br>
-
-<label for="randevu-tarih">Randevu Tarihi:</label>
-<input type="date" id="randevu-tarih" name="randevu-tarih">
-<br><br>
-
-<label for="randevu-saat">Randevu Saati:</label>
-<select id="randevu-saat" name="randevu-saat">
-  <option value="10:00">10:00</option>
-  <option value="10:30">10:30</option>
-  <option value="11:00">11:00</option>
-  <option value="11:30">11:30</option>
-  <option value="12:00">12:00</option>
-  <option value="12:30">12:30</option>
-  <option value="13:00">13:00</option>
-  <option value="13:30">13:30</option>
-  <option value="14:00">14:00</option>
-  <option value="14:30">14:30</option>
-  <option value="15:00">15:00</option>
-  <option value="15:30">15:30</option>
-  <option value="16:00">16:00</option>
-  <option value="16:30">16:30</option>
-  <option value="17:00">17:00</option>
-  <option value="17:30">17:30</option>
-  <option value="18:00">18:00</option>
-  <option value="18:30">18:30</option>
-  <option value="19:00">19:00</option>
-  <option value="19:30">19:30</option>
-  <option value="20:00">20:00</option>
-  <option value="20:30">20:30</option>
-  <option value="21:00">21:00</option>
-  <option value="21:30">21:30</option>
-  <option value="22:00">22:00</option>
-  <option value="22:30">22:30</option>
-  <option value="23:00">23:00</option>
-</select>
-<br><br>
-
-<button id="randevu-kaydet" onclick="alert('Randevunuz kaydedildi!')">
-  Randevuyu Kaydet
-</button>
-
+    <div id="language-select">
+        <select id="language">
+            <option value="ar" selected>العربية</option>
+            <option value="en">English</option>
+            <option value="tr">Türkçe</option>
+        </select>
+    </div>
+    <h1>Khalil Hair Designer Randevu Sistemi</h1>
+    <div id="appointment-area"></div>
+    <script src="script.js"></script>
 </body>
 </html>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    text-align: center;
+    padding: 20px;
+}
+
+#language-select {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#appointment-area {
+    margin-top: 50px;
+}
+document.getElementById('language').addEventListener('change', (e) => {
+    const lang = e.target.value;
+    alert(`Dil değiştirildi: ${lang}`);
+    // Buraya dil değiştirme fonksiyonu eklenebilir
+});
+
+// Placeholder: Randevu alanı dinamik içerik
+const appointmentArea = document.getElementById('appointment-area');
+appointmentArea.innerHTML = `<p>Randevu alanı burada olacak</p>`;
+cd khalilhairdesigner
+npm install
+npm start
