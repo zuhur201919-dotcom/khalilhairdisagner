@@ -1,14 +1,28 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Kahalil Hair Designer</title>
+  <meta charset="UTF-8">
+  <title>Kahalil Hair Designer Randevu Sistemi</title>
 </head>
-<body> 
-    <h1>Hoşgeldin, Kahalil Hair Designer Randevu Sistemi</h1>
+<body>
+
+<h1>Hoşgeldin, Kahalil Hair Designer Randevu Sistemi</h1>
+
+<label for="kullanici-isim">İsim:</label>
+<input type="text" id="kullanici-isim" name="kullanici-isim" placeholder="İsminizi girin">
+<br><br>
+
+<label for="kullanici-telefon">Telefon:</label>
+<input type="tel" id="kullanici-telefon" name="kullanici-telefon" placeholder="Telefon numaranızı girin">
+<br><br>
+
 <label for="randevu-tarih">Randevu Tarihi:</label>
 <input type="date" id="randevu-tarih" name="randevu-tarih">
-<option value="10:00">10:00</option>
+<br><br>
+
+<label for="randevu-saat">Randevu Saati:</label>
+<select id="randevu-saat" name="randevu-saat">
+  <option value="10:00">10:00</option>
   <option value="10:30">10:30</option>
   <option value="11:00">11:00</option>
   <option value="11:30">11:30</option>
@@ -36,5 +50,11 @@
   <option value="22:30">22:30</option>
   <option value="23:00">23:00</option>
 </select>
+<br><br>
+
+<button id="randevu-kaydet" onclick="alert('Randevunuz kaydedildi!')">
+  Randevuyu Kaydet
+</button>
+
 </body>
 </html>
