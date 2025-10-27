@@ -6,9 +6,11 @@
     <title>Randevu Sistemi</title>
     <style>
         body {
-            background-color: black;
+            background-color: #1a1a1a; /* Koyu gri arka plan */
             color: white;
             font-family: Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
         }
         .container {
             width: 300px;
@@ -17,6 +19,8 @@
             border: 1px solid white;
             border-radius: 10px;
             background-color: rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
         }
         input[type="text"], input[type="tel"], input[type="submit"] {
             width: 100%;
@@ -27,12 +31,37 @@
             background-color: rgba(255, 255, 255, 0.2);
             color: white;
         }
-        .checkbox {
+        .button {
+            background-color: #4CAF50; /* Yeşil buton */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
             margin: 10px 0;
         }
+        .button:hover {
+            background-color: #45a049; /* Buton hover rengi */
+        }
+        .sticker {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            z-index: 0;
+        }
+        .sticker1 { top: 20%; left: 10%; }
+        .sticker2 { top: 50%; right: 15%; }
+        .sticker3 { bottom: 10%; left: 20%; }
     </style>
 </head>
 <body>
+
+<div class="sticker sticker1"></div>
+<div class="sticker sticker2"></div>
+<div class="sticker sticker3"></div>
 
 <div class="container">
     <h2>حياكم الله</h2>
@@ -42,6 +71,8 @@
         
         <label for="phone">رقم الهاتف:</label>
         <input type="tel" id="phone" required placeholder="ادخل رقم هاتفك">
+        
+        <button type="button" class="button" id="getCodeButton">كود الحصول على</button>
         
         <label for="verificationCode">رمز التحقق:</label>
         <input type="text" id="verificationCode" required placeholder="ادخل رمز التحقق">
@@ -56,6 +87,16 @@
 </div>
 
 <script>
+    document.getElementById('getCodeButton').addEventListener('click', function() {
+        const phone = document.getElementById('phone').value;
+        if (phone) {
+            alert('Kodunuz ' + phone + ' numarasına gönderildi!'); // Burada kod gönderildi mesajı
+            // Gerçek bir uygulamada burada bir API çağrısı yapılabilir
+        } else {
+            alert('Lütfen telefon numaranızı girin.');
+        }
+    });
+
     document.getElementById('registrationForm').addEventListener('submit', function(event) {
         event.preventDefault();
         
