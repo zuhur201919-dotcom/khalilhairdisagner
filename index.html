@@ -1,102 +1,77 @@
-{
-  "name": "khalilhairdesigner",
-  "version": "1.0.0",
-  "description": "Randevu ve admin sistemi",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "body-parser": "^1.20.2",
-    "sqlite3": "^5.1.6"
-  }
-}
-const express = require('express');
-const bodyParser = require('body-parser');
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
-
-const app = express();
-const PORT = 3000;
-
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
-
-// SQLite Database
-const db = new sqlite3.Database('./db/setup.db', (err) => {
-    if (err) console.error(err.message);
-    else console.log('Connected to SQLite database.');
-});
-
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-});
-
--- Kullanıcılar tablosu
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    phone TEXT,
-    isAdmin INTEGER DEFAULT 0,
-    language TEXT DEFAULT 'ar'
-);
-
--- Randevular tablosu
-CREATE TABLE IF NOT EXISTS appointments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    userId INTEGER,
-    service TEXT,
-    startTime TEXT,
-    duration INTEGER,
-    status TEXT DEFAULT 'pending',
-    FOREIGN KEY(userId) REFERENCES users(id)
-);
 <!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>Khalil Hair Designer</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Randevu Sistemi</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid white;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        input[type="text"], input[type="tel"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid white;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        .checkbox {
+            margin: 10px 0;
+        }
+    </style>
 </head>
 <body>
-    <div id="language-select">
-        <select id="language">
-            <option value="ar" selected>العربية</option>
-            <option value="en">English</option>
-            <option value="tr">Türkçe</option>
-        </select>
-    </div>
-    <h1>Khalil Hair Designer Randevu Sistemi</h1>
-    <div id="appointment-area"></div>
-    <script src="script.js"></script>
+
+<div class="container">
+    <h2>حياكم الله</h2>
+    <form id="registrationForm">
+        <label for="name">اسم:</label>
+        <input type="text" id="name" required placeholder="ادخل اسمك">
+        
+        <label for="phone">رقم الهاتف:</label>
+        <input type="tel" id="phone" required placeholder="ادخل رقم هاتفك">
+        
+        <label for="verificationCode">رمز التحقق:</label>
+        <input type="text" id="verificationCode" required placeholder="ادخل رمز التحقق">
+        
+        <div class="checkbox">
+            <input type="checkbox" id="notifications" required>
+            <label for="notifications">للتسجيل، يرجى تفعيل الإشعارات</label>
+        </div>
+        
+        <input type="submit" value="تسجيل">
+    </form>
+</div>
+
+<script>
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const verificationCode = document.getElementById('verificationCode').value;
+
+        // Admin telefon numaraları kontrolü
+        if (phone === "0593290577" || phone === "0560405067") {
+            alert('Admin olarak giriş yapıldı!');
+            // Burada admin özelliklerini gösterebilirsin
+        } else {
+            alert('Kayıt başarılı!'); // Basit bir bildirim
+        }
+    });
+</script>
+
 </body>
 </html>
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    text-align: center;
-    padding: 20px;
-}
-
-#language-select {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-#appointment-area {
-    margin-top: 50px;
-}
-document.getElementById('language').addEventListener('change', (e) => {
-    const lang = e.target.value;
-    alert(`Dil değiştirildi: ${lang}`);
-    // Buraya dil değiştirme fonksiyonu eklenebilir
-});
-
-// Placeholder: Randevu alanı dinamik içerik
-const appointmentArea = document.getElementById('appointment-area');
-appointmentArea.innerHTML = `<p>Randevu alanı burada olacak</p>`;
-cd khalilhairdesigner
-npm install
-npm start
